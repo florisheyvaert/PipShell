@@ -21,7 +21,7 @@ namespace PipShell.Python
             var result = new List<Package>();
             foreach (var line in input.Split(Environment.NewLine).Where(x => !string.IsNullOrWhiteSpace(x)))
             {
-                var split = input.Split("==");
+                var split = line.Split("==");
                 result.Add(new Package()
                 {
                     Name = split[0],

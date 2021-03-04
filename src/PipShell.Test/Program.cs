@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PipShell.Python;
+using System;
 using System.Threading.Tasks;
 
 namespace PipShell.Test
@@ -11,7 +12,7 @@ namespace PipShell.Test
             var mapper = new PipMapper();
             var pip = new Pip(commander, mapper);
 
-            //var packages = await pip.Get();
+            var packages = await pip.Get();
             //var package = await pip.Get("selenium");
             //var package123 = await pip.Get("selenium123");
             await pip.Install("SaopBerry");
