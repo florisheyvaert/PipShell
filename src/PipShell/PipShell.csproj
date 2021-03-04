@@ -4,6 +4,8 @@
     <TargetFramework>net5.0</TargetFramework>
     <Authors>Floris Heyvaert</Authors>
     <Description>A shell written for executing Pip commands.</Description>
+    <Version>1.0.1</Version>
+    <RepositoryUrl>https://github.com/florisheyvaert/PipShell</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
