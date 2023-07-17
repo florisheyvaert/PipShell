@@ -65,7 +65,8 @@ namespace PipShell.Python
             {
                 FileName = "pip",
                 Arguments = command,
-                WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden,
+                WindowStyle = ProcessWindowStyle.Hidden,
+                UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true
             };
