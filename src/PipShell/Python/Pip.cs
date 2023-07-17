@@ -9,15 +9,6 @@ using System.Threading.Tasks;
 
 namespace PipShell.Python
 {
-    public interface IPip
-    {
-        Task<List<Package>> Get(CancellationToken cancellationToken = default);
-        Task<Package> Get(string name, CancellationToken cancellationToken = default);
-        Task<Package> Update(string name, CancellationToken cancellationToken = default);
-        Task<Package> Uninstall(string name, CancellationToken cancellationToken = default);
-        Task<Package> Install(string name, CancellationToken cancellationToken = default);
-    }
-
     public class Pip : IPip
     {
         private readonly IPipCommander _pipCommander;
