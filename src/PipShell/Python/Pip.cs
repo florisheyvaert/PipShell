@@ -3,9 +3,11 @@ using PipShell.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace PipShell.Python
 {
@@ -52,6 +54,12 @@ namespace PipShell.Python
         {
             await _pipCommander.Execute($"install \"{name}\"", cancellationToken);
             return await Get(name, cancellationToken);
+        }
+
+        public async Task<Package> Install(Package package, CancellationToken cancellationToken = default)
+        {
+            await _pipCommander.Execute($"install \"{package.Name}\"=={package.Version}", cancellationToken);
+            return await Get(package.Name, cancellationToken);
         }
 
         public async Task<Package> Uninstall(string name, CancellationToken cancellationToken = default)

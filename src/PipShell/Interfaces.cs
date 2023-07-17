@@ -15,5 +15,6 @@ namespace PipShell
         Task<Package> Update(string name, CancellationToken cancellationToken = default);
         Task<Package> Uninstall(string name, CancellationToken cancellationToken = default);
         Task<Package> Install(string name, CancellationToken cancellationToken = default);
+        Task<Package> Install(Package package, CancellationToken cancellationToken = default);
     }
 }
