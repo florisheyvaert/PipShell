@@ -11,6 +11,19 @@ namespace PipShell
 {
     public static class DependencyInjection
     {
+        public static IServiceCollection AddPipShell(this IServiceCollection services, Action<PipOptions> options)
+        {
+            var pipOptions = new PipOptions();
+            options.Invoke(pipOptions);
+
+            services.AddTransient<IPip, Pip>();
+            services.AddTransient<IPipMapper, PipMapper>();
+            services.AddTransient<IPipCommander, PipCommander>();
+            services.AddSingleton(pipOptions);
+
+            return services;
+        }
+
         public static IServiceCollection AddPipShell(this IServiceCollection services)
         {
             services.AddTransient<IPip, Pip>();

@@ -18,6 +18,13 @@ namespace PipShell.Python
 
     public class PipCommander : IPipCommander
     {
+        private readonly PipOptions _options;
+
+        public PipCommander(PipOptions options)
+        {
+            _options = options;
+        }
+
         public async Task<string> Execute(string command, CancellationToken cancellationToken = default)
         {
             try
@@ -45,7 +52,7 @@ namespace PipShell.Python
         {
             try
             {
-                var pInfo = CreateProcess("install --upgrade pip");
+                var pInfo = CreateProcess("install --upgrade pip", addOptions: false);
 
                 var process = Process.Start(pInfo);
                 var output = process.StandardOutput.ReadToEnd();
@@ -59,8 +66,17 @@ namespace PipShell.Python
             }
         }
 
-        private static ProcessStartInfo CreateProcess(string command)
+        private ProcessStartInfo CreateProcess(string command, bool addOptions = true)
         {
+            if (addOptions)
+            {
+                if (_options.DisablePipVersionCheck)
+                    command += $" --disable-pip-version-check";
+
+                if (_options.IgnoreRootUserAction && !command.Contains("freeze")) // todo fix
+                    command += $" --root-user-action=ignore";
+            }
+
             return new ProcessStartInfo
             {
                 FileName = "pip",
@@ -71,7 +87,5 @@ namespace PipShell.Python
                 RedirectStandardError = true
             };
         }
-
-
     }
 }

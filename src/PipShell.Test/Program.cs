@@ -1,4 +1,5 @@
-﻿using PipShell.Python;
+﻿using Microsoft.Extensions.DependencyInjection;
+using PipShell.Python;
 using System;
 using System.Threading.Tasks;
 
@@ -8,7 +9,8 @@ namespace PipShell.Test
     {
         static async Task Main(string[] args)
         {
-            var commander = new PipCommander();
+            var options = new PipOptions() { DisablePipVersionCheck = true, IgnoreRootUserAction = true };
+            var commander = new PipCommander(options);
             var mapper = new PipMapper();
             var pip = new Pip(commander, mapper);
 
