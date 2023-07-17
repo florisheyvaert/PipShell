@@ -12,6 +12,8 @@ namespace PipShell.Test
             var mapper = new PipMapper();
             var pip = new Pip(commander, mapper);
 
+            await commander.Update();
+
             var packages = await pip.Get();
             //var package = await pip.Get("selenium");
             //var package123 = await pip.Get("selenium123");

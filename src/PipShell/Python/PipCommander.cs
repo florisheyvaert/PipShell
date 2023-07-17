@@ -13,6 +13,7 @@ namespace PipShell.Python
     public interface IPipCommander
     {
         Task<string> Execute(string command, CancellationToken cancellationToken = default);
+        Task Update();
     }
 
     public class PipCommander : IPipCommander
@@ -21,18 +22,12 @@ namespace PipShell.Python
         {
             try
             {
-                var pInfo = new ProcessStartInfo
-                {
-                    FileName = "pip",
-                    Arguments = command,
-                    WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true
-                };
+                var pInfo = CreateProcess(command);
 
                 var process = Process.Start(pInfo);
                 var output = process.StandardOutput.ReadToEnd();
                 var error = process.StandardError.ReadToEnd();
+
                 await process.WaitForExitAsync(cancellationToken);
 
                 if (!string.IsNullOrWhiteSpace(error))
@@ -45,5 +40,37 @@ namespace PipShell.Python
                 throw;
             }
         }
+
+        public async Task Update()
+        {
+            try
+            {
+                var pInfo = CreateProcess("install --upgrade pip");
+
+                var process = Process.Start(pInfo);
+                var output = process.StandardOutput.ReadToEnd();
+                var error = process.StandardError.ReadToEnd();
+
+                await process.WaitForExitAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        private static ProcessStartInfo CreateProcess(string command)
+        {
+            return new ProcessStartInfo
+            {
+                FileName = "pip",
+                Arguments = command,
+                WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
+        }
+
+
     }
 }
