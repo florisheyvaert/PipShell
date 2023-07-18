@@ -9,6 +9,5 @@ namespace PipShell
     public class PipOptions
     {
         public bool DisablePipVersionCheck { get; set; }
-        public bool IgnoreRootUserAction { get; set; }
     }
 }

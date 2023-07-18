@@ -50,22 +50,28 @@ namespace PipShell.Python
             return await Get(name, cancellationToken);
         }
 
-        public async Task<Package> Install(string name, CancellationToken cancellationToken = default)
+        public async Task<Package> Install(string name, bool ignoreRootUserAction = false, CancellationToken cancellationToken = default)
         {
-            await _pipCommander.Execute($"install \"{name}\"", cancellationToken);
+            var command = $"install \"{name}\"";
+            command = ignoreRootUserAction ? $"{command} --root-user-action=ignore" : command ;
+            await _pipCommander.Execute(command, cancellationToken);
             return await Get(name, cancellationToken);
         }
 
-        public async Task<Package> Install(Package package, CancellationToken cancellationToken = default)
+        public async Task<Package> Install(Package package, bool ignoreRootUserAction = false, CancellationToken cancellationToken = default)
         {
-            await _pipCommander.Execute($"install \"{package.Name}\"=={package.Version}", cancellationToken);
+            var command = $"install \"{package.Name}\"=={package.Version}";
+            command = ignoreRootUserAction ? $"{command} --root-user-action=ignore" : command;
+            await _pipCommander.Execute(command, cancellationToken);
             return await Get(package.Name, cancellationToken);
         }
 
-        public async Task<Package> Uninstall(string name, CancellationToken cancellationToken = default)
+        public async Task<Package> Uninstall(string name, bool ignoreRootUserAction = false, CancellationToken cancellationToken = default)
         {
             var package = await Get(name, cancellationToken);
-            await _pipCommander.Execute($"uninstall -y {package.Name}=={package.Version}", cancellationToken);
+            var command = $"uninstall -y {package.Name}=={package.Version}";
+            command = ignoreRootUserAction ? $"{command} --root-user-action=ignore" : command;
+            await _pipCommander.Execute(command, cancellationToken);
             return package;
         }
     }

@@ -72,9 +72,6 @@ namespace PipShell.Python
             {
                 if (_options.DisablePipVersionCheck)
                     command += $" --disable-pip-version-check";
-
-                if (_options.IgnoreRootUserAction && !command.Contains("freeze")) // todo fix
-                    command += $" --root-user-action=ignore";
             }
 
             return new ProcessStartInfo
